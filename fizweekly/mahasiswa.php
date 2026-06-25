@@ -1,15 +1,8 @@
 <?php
 
-// API
-$koneksi = mysqli_connect("localhost", "root", "", "fizweekly");
-if($koneksi)
-    {
-        echo "koneksi berhasil";
-    }
-
-    $query = "SELECT * FROM mahasiswa";
-
-    $result = mysqli_query($koneksi, $query); //lemari isi data
+    require 'fungsi.php';
+    $query = "SELECT * FROM mahasiswa"; /// perintah
+    $mahasiswas = tampildata($query); /// wadah berisi data
 
     // while ($mhs = mysqli_fetch_assoc($result));
     // {
@@ -76,25 +69,26 @@ if($koneksi)
 
         </tr>
 <?php
-while($mhs = mysqli_fetch_assoc($result)) 
-    {
+$no = 1;
+foreach($mahasiswas as $mhs) {
 ?>
-        <tr>
-            <td align="center">1</td>
-            <td><?php echo $mhs["nama"] ?></td>
-            <td><?php echo $mhs["nim"] ?></td>
-            <td><img src="assets/images/<?php echo $mhs["nama"] ?>"></td>
-            <td align="center"><?php echo $mhs["jurusan"] ?></td>
-            <td align="center"><?php echo $mhs["email"] ?></td>
-            <td align="center"><?php echo $mhs["no_hp"] ?></td>
-            <td>
-                <a href="editdata.php"><button>Edit</button></a>
-                <a href="deletedata.php"><button>Hapus</button></a>
-            </td>
-        </tr>
-        <?php
-    }
-    ?>
+<tr>
+    <td align="center"><?= $no ?></td>
+    <td><?= $mhs["nama"] ?></td>
+    <td><?= $mhs["nim"] ?></td>
+    <td><img src="assets/images/<?= $mhs["foto"] ?>" width="100"></td>
+    <td><?= $mhs["jurusan"] ?></td>
+    <td><?= $mhs["email"] ?></td>
+    <td><?= $mhs["no_hp"] ?></td>
+    <td>
+        <a href="editdata.php?id=<?= $mhs['id'] ?>">Edit</a>
+        <a href="deletedata.php?id=<?= $mhs['id'] ?>">Hapus</a>
+    </td>
+</tr>
+<?php
+    $no++;
+}
+?>
        
     </table>
     
